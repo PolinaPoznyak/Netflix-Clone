@@ -9,16 +9,23 @@ import UIKit
 import Lottie
 
 class ViewController: UIViewController {
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-    
-    @IBAction func didTapAnotherSplashButton() {
-        let splashViewController = SplashViewController()
-        splashViewController.modalPresentationStyle = .currentContext
-            present(splashViewController, animated: true)
+        initialize()
     }
 }
-
+   
+// MARK: - Private method
+private extension ViewController {
+    func initialize() {
+        view.backgroundColor = .black
+        
+        let splashView = SplashView()
+        view.addSubview(splashView)
+        
+        splashView.snp.makeConstraints {
+            make in make.edges.equalToSuperview()
+        }
+    }
+}

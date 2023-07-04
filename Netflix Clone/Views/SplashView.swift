@@ -7,40 +7,50 @@
 
 import SnapKit
 import UIKit
+import Lottie
 
 class SplashView : UIView {
-    // MARK: - Ini
+    // MARK: - Init
     init() {
         super.init(frame: .zero)
         initialize()
     }
     
-    //нужен, если хотим инициализировать view не из кода, а из сториборда
+    //it is needed if we want to initialize the view not from the code, but from the storyboard
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: - Private constants
     private enum UIConstants {
-        static let logoWidth: CGFloat = 250
-        static let logoHeight: CGFloat = 250
+        static let logoWidth: CGFloat = 410
+        static let logoHeight: CGFloat = 410
     }
     
-    // MARK: - Private properties
+    // MARK: - Private image properties
     private let imageView: UIImageView = {
         let view = UIImageView()
         view.image = UIImage(named: "netflix-logo")
         view.contentMode = .scaleAspectFit
         return view
     } ()
+    
+    // MARK: - Lottie
+    private let animationView: AnimationView = {
+        let animationView = AnimationView()
+        animationView.animation = Animation.named("netflix-logo-swoop")
+        animationView.loopMode = .playOnce
+        animationView.play()
+        return animationView
+    } ()
 }
 
 // MARK: Private methods
 private extension SplashView {
     func initialize() {
-        addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        addSubview(animationView)
+        animationView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
             make.width.equalTo(UIConstants.logoWidth)
             make.height.equalTo(UIConstants.logoHeight)
         }
