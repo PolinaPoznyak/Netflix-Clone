@@ -33,3 +33,25 @@ extension Movie: Codable {
         releaseDate = try movieContainer.decode(String.self, forKey: .releaseDate)
     }
 }
+
+struct MovieApiResponse {
+    let page: Int
+    let numberOfPages: Int
+    let movies: [Movie]
+}
+
+extension MovieApiResponse: Codable {
+
+    private enum MovieApiResponseCodingKeys: String, CodingKey {
+        case page
+        case numberOfPages = "total_pages"
+        case movies = "results"
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: MovieApiResponseCodingKeys.self)
+        page = try container.decode(Int.self, forKey: .page)
+        numberOfPages = try container.decode(Int.self, forKey: .numberOfPages)
+        movies = try container.decode([Movie].self, forKey: .movies)
+    }
+}
