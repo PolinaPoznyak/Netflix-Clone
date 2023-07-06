@@ -148,7 +148,16 @@ class LoginView: UIView {
     }
     
     @objc private func loginButtonTapped() {
-        print("login")
+        APIClient.shared.getAccountInfo { (result) in
+            switch result{
+            case let .success(account):
+            DispatchQueue.main.async {
+                print(account.username)
+            }
+            case let .failure(error):
+                print(error)
+            }
+        }
     }
     
     @objc private func guestModeButtonTapped() {
