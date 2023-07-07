@@ -9,6 +9,6 @@ import Foundation
 
 struct AuthenticationTokenResponse: Codable {
     let success: Bool
-    let expires_at: String
-    let request_token: String
+    let expiresAt: String
+    let requestToken: String
 }
