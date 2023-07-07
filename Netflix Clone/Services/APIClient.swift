@@ -9,12 +9,12 @@ import Foundation
 
 struct APIClient {
     static let shared = APIClient()
-    let session = URLSession(configuration: .default)
+    private let session = URLSession(configuration: .default)
 
     let parameters = [
            "sort_by": "popularity.desc"
     ]
-    func getPopularMovies(_ completion: @escaping (Result<[Movie]>) -> ()) {
+    func getPopularMovies(_ completion: @escaping (Result<[Movie], NetworkError>) -> ()) {
         do{
           // Creating the request
             let request = try Request.configureRequest(from: .movies, with: parameters, and: .get, contains: nil)
@@ -39,7 +39,7 @@ struct APIClient {
         }
     }
     
-    func createRequestToken(_ completion: @escaping (Result<AuthenticationTokenResponse>) -> ()) {
+    func createRequestToken(_ completion: @escaping (Result<AuthenticationTokenResponse, NetworkError>) -> ()) {
         do{
             let request = try Request.configureRequest(from: .token, with: [:], and: .get, contains: nil)
             session.dataTask(with: request) { (data, response, error) in
@@ -62,7 +62,7 @@ struct APIClient {
         }
     }
     
-    func getAccountInfo(_ completion: @escaping (Result<Account>) -> ()) {
+    func getAccountInfo(_ completion: @escaping (Result<Account, NetworkError>) -> ()) {
         do{
             let request = try Request.configureRequest(from: .account, with: [:], and: .get, contains: nil)
             session.dataTask(with: request) { (data, response, error) in

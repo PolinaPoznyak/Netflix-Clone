@@ -46,11 +46,33 @@ struct Request {
                                                   request: inout URLRequest) throws {
         do {
             if let headers = headers, let parameters = parameters {
-                try Encoder.encodeParameters(for: &request, with: parameters)
-                try Encoder.setHeaders(for: &request, with: headers)
+                try request.encode(parameters: parameters)
+                try request.setHeaders(headers: headers)
             }
         } catch {
             throw NetworkError.encodingFailed
+        }
+    }
+}
+
+// MARK: - extension
+extension URLRequest {
+    mutating func encode(parameters: [String: Any]) throws {
+        guard let url = self.url else { throw NetworkError.missingURL }
+
+        if var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false), !parameters.isEmpty {
+            urlComponents.queryItems = [URLQueryItem]()
+            for (key, value) in parameters {
+                let queryItem = URLQueryItem(name: key, value: "\(value)")
+                urlComponents.queryItems?.append(queryItem)
+            }
+            self.url = urlComponents.url
+        }
+    }
+    
+    mutating func setHeaders(headers: [String: String]) throws {
+        for (key, value) in headers {
+            self.setValue(value, forHTTPHeaderField: key)
         }
     }
 }

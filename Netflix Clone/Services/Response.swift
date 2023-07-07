@@ -7,14 +7,9 @@
 
 import Foundation
 
-enum Result<T> {
-    case success(T)
-    case failure(Error)
-}
-
 struct Response {
 
-    static func handleResponse(for response: HTTPURLResponse?) -> Result<String>{
+    static func handleResponse(for response: HTTPURLResponse?) -> Result<String, NetworkError>{
 
         guard let res = response else { return Result.failure(NetworkError.noResponse)}
 
