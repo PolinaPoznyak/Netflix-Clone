@@ -16,7 +16,7 @@ class LoginView: UIView {
         return imageView
     }()
     
-    private let emailTextField: UITextField = {
+    let emailTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textColor = .lightGray
@@ -30,7 +30,7 @@ class LoginView: UIView {
         return textField
     }()
     
-    private let passwordTextField: UITextField = {
+    let passwordTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textColor = .lightGray
@@ -45,7 +45,7 @@ class LoginView: UIView {
         return textField
     }()
     
-    private let showPasswordButton: UIButton = {
+    let showPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("SHOW", for: .normal)
         button.setTitleColor(UIColor.lightGray, for: .normal)
@@ -140,44 +140,21 @@ class LoginView: UIView {
         }
     }
     
-// MARK: - Actions
+
+    // MARK: - Actions
+    var showPasswordButtonAction: (() -> Void)?
+    var loginButtonAction: (() -> Void)?
+    var guestModeButtonAction: (() -> Void)?
+
     @objc private func showPasswordButtonTapped() {
-        passwordTextField.isSecureTextEntry.toggle()
-        let showButtonTitle = passwordTextField.isSecureTextEntry ? "SHOW" : "HIDE"
-        showPasswordButton.setTitle(showButtonTitle, for: .normal)
+        showPasswordButtonAction?()
     }
-    
+
     @objc private func loginButtonTapped() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-                print("Please enter email and password")
-                return
-            }
-            
-            var currentAccount: Account?
-            
-            APIClient.shared.getAccountInfo { result in
-                switch result {
-                case .success(let account):
-                    currentAccount = Account(id: account.id, name: account.name, username: account.username)
-                case .failure(_):
-                    print("Failed to get account info")
-                }
-                
-                if let currentAccount = currentAccount {
-                    if email != currentAccount.username {
-                        print("Invalid email")
-                        return
-                    }
-                    
-                    if password != "Pa$$word" {
-                        print("Invalid password")
-                        return
-                    }
-                }
-            }
-        }
-    
+        loginButtonAction?()
+    }
+
     @objc private func guestModeButtonTapped() {
-        print("guest")
+        guestModeButtonAction?()
     }
 }
