@@ -148,17 +148,34 @@ class LoginView: UIView {
     }
     
     @objc private func loginButtonTapped() {
-        APIClient.shared.getAccountInfo { (result) in
-            switch result{
-            case let .success(account):
-            DispatchQueue.main.async {
-                print(account.username)
+        guard let email = emailTextField.text, let password = passwordTextField.text else {
+                print("Please enter email and password")
+                return
             }
-            case let .failure(error):
-                print(error)
+            
+            var currentAccount: Account?
+            
+            APIClient.shared.getAccountInfo { result in
+                switch result {
+                case .success(let account):
+                    currentAccount = Account(id: account.id, name: account.name, username: account.username)
+                case .failure(_):
+                    print("Failed to get account info")
+                }
+                
+                if let currentAccount = currentAccount {
+                    if email != currentAccount.username {
+                        print("Invalid email")
+                        return
+                    }
+                    
+                    if password != "Pa$$word" {
+                        print("Invalid password")
+                        return
+                    }
+                }
             }
         }
-    }
     
     @objc private func guestModeButtonTapped() {
         print("guest")
