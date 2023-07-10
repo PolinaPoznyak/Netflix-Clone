@@ -7,15 +7,21 @@
 
 import Foundation
 
-struct APIClient {
+protocol APIClientProtocol {
+    func getPopularMovies(_ completion: @escaping (Result<[Movie], NetworkError>) -> ())
+    func createRequestToken(_ completion: @escaping (Result<AuthenticationTokenResponse, NetworkError>) -> ())
+    func getAccountInfo(_ completion: @escaping (Result<Account, NetworkError>) -> ())
+}
+
+struct APIClient: APIClientProtocol {
     static let shared = APIClient()
     private let session = URLSession(configuration: .default)
 
-    let parameters = [
-           "sort_by": "popularity.desc"
-    ]
     func getPopularMovies(_ completion: @escaping (Result<[Movie], NetworkError>) -> ()) {
         do{
+            let parameters = [
+                "sort_by": "popularity.desc"
+            ]
           // Creating the request
             let request = try Request.configureRequest(from: .movies, with: parameters, and: .get, contains: nil)
                 session.dataTask(with: request) { (data, response, error) in
