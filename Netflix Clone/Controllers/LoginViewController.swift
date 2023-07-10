@@ -40,8 +40,19 @@ class LoginViewController: UIViewController {
     }
     
     private func loginButtonTapped() {
-        guard let email = loginView.emailTextField.text, let password = loginView.passwordTextField.text else {
-            print("Please enter email and password")
+        guard let email = loginView.emailTextField.text, !email.isEmpty,
+                 let password = loginView.passwordTextField.text, !password.isEmpty else {
+               showAlert(message: "Please enter email and password")
+               return
+           }
+        
+        if email.isEmpty {
+            showAlert(message: "Please enter email")
+            return
+        }
+        
+        if password.isEmpty {
+            showAlert(message: "Please enter password")
             return
         }
         
@@ -56,19 +67,23 @@ class LoginViewController: UIViewController {
                         homeViewController.modalPresentationStyle = .currentContext
                         self?.present(homeViewController, animated: true)
                     } else {
-                        print("Invalid email or password")
+                        self?.showAlert(message: "Invalid email or password")
                     }
                     
                 case .failure(_):
-                    print("Failed to get account info")
+                    self?.showAlert(message: "Failed to get account info")
                 }
             }
         }
     }
-
-
     
     private func guestModeButtonTapped() {
         print("guest")
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alertController, animated: true, completion: nil)
     }
 }
