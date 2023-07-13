@@ -16,7 +16,7 @@ class LoginView: UIView {
         return imageView
     }()
     
-    let emailTextField: UITextField = {
+    let usernameTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
         textField.textColor = .lightGray
@@ -88,7 +88,7 @@ class LoginView: UIView {
         backgroundColor = .black
         
         addSubview(logoImageView)
-        addSubview(emailTextField)
+        addSubview(usernameTextField)
         addSubview(passwordTextField)
         addSubview(loginButton)
         addSubview(guestModeButton)
@@ -101,7 +101,7 @@ class LoginView: UIView {
             make.height.equalTo(150)
         }
 
-        emailTextField.snp.makeConstraints { make in
+        usernameTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(logoImageView.snp.bottom).offset(150)
             make.leading.equalToSuperview().offset(50)
@@ -111,9 +111,9 @@ class LoginView: UIView {
 
         passwordTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(emailTextField.snp.bottom).offset(20)
-            make.leading.equalTo(emailTextField.snp.leading)
-            make.trailing.equalTo(emailTextField.snp.trailing)
+            make.top.equalTo(usernameTextField.snp.bottom).offset(20)
+            make.leading.equalTo(usernameTextField.snp.leading)
+            make.trailing.equalTo(usernameTextField.snp.trailing)
             make.height.equalTo(60)
         }
 

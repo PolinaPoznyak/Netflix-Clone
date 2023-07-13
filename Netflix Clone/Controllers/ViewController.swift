@@ -28,8 +28,10 @@ private extension ViewController {
             make in make.edges.equalToSuperview()
         }
         
-        Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false) { [weak self] _ in
-            let loginViewController = LoginViewController()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+            let apiClient = APIClient()
+            let loginViewModel = LoginViewModel(apiClient: apiClient)
+            let loginViewController = LoginViewController(viewModel: loginViewModel)
             loginViewController.modalTransitionStyle = .crossDissolve
             loginViewController.modalPresentationStyle = .fullScreen
             self?.present(loginViewController, animated: true, completion: nil)
