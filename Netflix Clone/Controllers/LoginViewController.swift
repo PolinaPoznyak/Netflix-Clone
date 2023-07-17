@@ -9,7 +9,26 @@ import SnapKit
 import UIKit
 
 class LoginViewController: UIViewController {
+    
+    //MARK: - Properties
+    
     private let loginView = LoginView()
+    private let loginViewModel: LoginViewModel
+
+    
+    //MARK: - Init
+    
+    init(viewModel: LoginViewModel) {
+        self.loginViewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.loginViewModel.view = self
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,57 +52,51 @@ class LoginViewController: UIViewController {
     
     // MARK: - Actions
 
+    private func getUsername() -> String? {
+        return loginView.usernameTextField.text
+    }
+    
+    private func getPassword() -> String? {
+        return loginView.passwordTextField.text
+    }
+    
     private func showPasswordButtonTapped() {
-        loginView.passwordTextField.isSecureTextEntry.toggle()
-        let showButtonTitle = loginView.passwordTextField.isSecureTextEntry ? "SHOW" : "HIDE"
-        loginView.showPasswordButton.setTitle(showButtonTitle, for: .normal)
+        loginViewModel.togglePasswordButtonVisibility()
     }
     
     private func loginButtonTapped() {
-        guard let email = loginView.emailTextField.text, !email.isEmpty,
-                 let password = loginView.passwordTextField.text, !password.isEmpty else {
-               showAlert(message: "Please enter email and password")
-               return
-           }
-        
-        if email.isEmpty {
-            showAlert(message: "Please enter email")
+        guard let username = getUsername(), !username.isEmpty else {
+            showAlert(message: "Please enter username")
             return
         }
         
-        if password.isEmpty {
+        guard let password = getPassword(), !password.isEmpty else {
             showAlert(message: "Please enter password")
             return
         }
         
-        APIClient.shared.getAccountInfo { [weak self] result in
-            DispatchQueue.main.async {
-                switch result {
-                case .success(let account):
-                    let currentAccount = Account(id: account.id, name: account.name, username: account.username)
-                    
-                    if email == currentAccount.username && password == "Pa$$word" {
-                        let homeViewController = HomeViewController()
-                        homeViewController.modalPresentationStyle = .currentContext
-                        self?.present(homeViewController, animated: true)
-                    } else {
-                        self?.showAlert(message: "Invalid email or password")
-                    }
-                    
-                case .failure(_):
-                    self?.showAlert(message: "Failed to get account info")
-                }
-            }
-        }
+        loginViewModel.set(username: username)
+        loginViewModel.set(password: password)
+        loginViewModel.login(username: username, password: password)
     }
     
     private func guestModeButtonTapped() {
         print("guest")
     }
     
-    private func showAlert(message: String) {
+    //MARK: - Alert
+    
+    func showAlert(message: String) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alertController, animated: true, completion: nil)
+    }
+    
+    //MARK: - Update
+
+    func updatePasswordTextField(isPasswordVisible: Bool) {
+        loginView.passwordTextField.isSecureTextEntry = isPasswordVisible
+        let showButtonTitle = isPasswordVisible ? "SHOW" : "HIDE"
+        loginView.showPasswordButton.setTitle(showButtonTitle, for: .normal)
     }
 }
