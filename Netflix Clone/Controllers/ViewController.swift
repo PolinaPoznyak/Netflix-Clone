@@ -10,6 +10,32 @@ import Lottie
 
 class ViewController: UIViewController {
     
+    //MARK: - Properties
+    
+    private let splashView = SplashView()
+    private let splashViewModel: SplashViewModel
+    
+    
+    //MARK: - Init
+    
+    init(viewModel: SplashViewModel) {
+        self.splashViewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+        self.splashViewModel.view = self
+        view.backgroundColor = .orange
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+//    required init?(coder: NSCoder) {
+//        self.splashViewModel = SplashViewModel()
+//        super.init(coder: coder)
+//    }
+    
+    //MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initialize()
@@ -17,11 +43,10 @@ class ViewController: UIViewController {
 }
    
 // MARK: - Private method
+
 private extension ViewController {
     func initialize() {
         view.backgroundColor = .black
-        
-        let splashView = SplashView()
         view.addSubview(splashView)
         
         splashView.snp.makeConstraints {
@@ -29,12 +54,7 @@ private extension ViewController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
-            let apiClient = APIClient()
-            let loginViewModel = LoginViewModel(apiClient: apiClient)
-            let loginViewController = LoginViewController(viewModel: loginViewModel)
-            loginViewController.modalTransitionStyle = .crossDissolve
-            loginViewController.modalPresentationStyle = .fullScreen
-            self?.present(loginViewController, animated: true, completion: nil)
+            self?.splashViewModel.goToLoginPage()
         }
     }
 }
