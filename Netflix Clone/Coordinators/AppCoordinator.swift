@@ -70,4 +70,22 @@ class AppCoordinator {
             self.navigationController.present(homeNavController, animated: true)
         }
     }
+
+    func presentMainTabBarController() {
+        let apiClient = APIClient()
+        
+        let mainTabBarViewModel = MainTabBarViewModel(apiClient: apiClient)
+        mainTabBarViewModel.appCoordinator = self
+        
+        let mainTabBarViewController = MainTabBarViewController(viewModel: mainTabBarViewModel)
+        
+        let mainTabBarNavController = UINavigationController(rootViewController: mainTabBarViewController)
+        mainTabBarNavController.navigationBar.prefersLargeTitles = false
+        
+        mainTabBarViewController.modalTransitionStyle = .crossDissolve
+        mainTabBarViewController.modalPresentationStyle = .fullScreen
+        self.navigationController.dismiss(animated: true) {
+            self.navigationController.present(mainTabBarNavController, animated: true)
+        }
+    }
 }

@@ -34,7 +34,7 @@ class LoginViewModel: LoginViewModelProtocol {
     // MARK: - Functions
     
     func goToHomePage() {
-        appCoordinator?.presentHomeViewController()
+        appCoordinator?.presentMainTabBarController()
     }
 
     func set(username: String) {
