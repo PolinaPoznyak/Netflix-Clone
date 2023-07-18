@@ -25,7 +25,7 @@ class LoginView: UIView {
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.lightGray
         ]
-        textField.attributedPlaceholder = NSAttributedString(string: "E-mail or Phone", attributes: attributes)
+        textField.attributedPlaceholder = NSAttributedString(string: "Username", attributes: attributes)
         
         return textField
     }()
@@ -92,7 +92,7 @@ class LoginView: UIView {
         addSubview(passwordTextField)
         addSubview(loginButton)
         addSubview(guestModeButton)
-        passwordTextField.addSubview(showPasswordButton)
+        addSubview(showPasswordButton)
         
         // MARK: - Constraints
         logoImageView.snp.makeConstraints { make in
@@ -103,7 +103,7 @@ class LoginView: UIView {
 
         usernameTextField.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(logoImageView.snp.bottom).offset(150)
+            make.top.equalTo(logoImageView.snp.bottom).offset(130)
             make.leading.equalToSuperview().offset(50)
             make.trailing.equalToSuperview().inset(50)
             make.height.equalTo(60)
@@ -118,14 +118,14 @@ class LoginView: UIView {
         }
 
         showPasswordButton.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(10)
+            make.centerY.equalTo(passwordTextField.snp.centerY)
+            make.trailing.equalTo(passwordTextField.snp.trailing).inset(10)
             make.height.equalTo(60)
         }
 
         loginButton.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(showPasswordButton.snp.bottom).offset(20)
+            make.top.equalTo(showPasswordButton.snp.bottom).offset(50)
             make.leading.equalTo(passwordTextField.snp.leading)
             make.trailing.equalTo(passwordTextField.snp.trailing)
             make.height.equalTo(60)

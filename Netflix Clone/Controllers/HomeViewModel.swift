@@ -10,12 +10,15 @@ import Foundation
 
 class HomeViewModel {
     
-    var appCoordinator: AppCoordinator?
+    //MARK: - Properties
     
-    weak var view: LoginViewController?
+    weak var appCoordinator: AppCoordinator?
+    weak var view: HomeViewController?
     
     private var apiClient: APIClient
     private var account: Account?
+    
+    //MARK: - Init
     
     init(apiClient: APIClient) {
         self.apiClient = apiClient

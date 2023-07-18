@@ -22,17 +22,12 @@ class ViewController: UIViewController {
         self.splashViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         self.splashViewModel.view = self
-        view.backgroundColor = .orange
+        view.backgroundColor = .black
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-//    required init?(coder: NSCoder) {
-//        self.splashViewModel = SplashViewModel()
-//        super.init(coder: coder)
-//    }
     
     //MARK: - Lifecycle
     

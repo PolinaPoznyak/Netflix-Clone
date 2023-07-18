@@ -10,11 +10,9 @@ import Foundation
 
 class LoginViewModel: LoginViewModelProtocol {
 
-    weak var appCoordinator: AppCoordinator? {
-        didSet {
-            print("login L")
-        }
-    }
+    //MARK: - Properties
+    
+    weak var appCoordinator: AppCoordinator?
     weak var view: LoginViewController?
 
     private var apiClient: APIClient
@@ -24,11 +22,16 @@ class LoginViewModel: LoginViewModelProtocol {
     var authUsername: String
     var authPassword: String
 
+    //MARK: - Init
+    
     init(apiClient: APIClient) {
         self.apiClient = apiClient
         self.authUsername = ""
         self.authPassword = ""
     }
+    
+    
+    // MARK: - Functions
     
     func goToHomePage() {
         appCoordinator?.presentHomeViewController()
@@ -50,7 +53,6 @@ class LoginViewModel: LoginViewModelProtocol {
                 if username == account.username && password == "Pa$$word" {
                     DispatchQueue.main.async {
                         self?.goToHomePage()
-                        view?.showAlert(message: "Successful login")
                     }
                 } else {
                     view?.showAlert(message: "Invalid email or password")

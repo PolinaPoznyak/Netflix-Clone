@@ -31,35 +31,43 @@ class AppCoordinator {
     func presentSplashViewController() {
         let splashViewModel = SplashViewModel()
         splashViewModel.appCoordinator = self
-        print("!!!appCoordinator splash: \(String(describing: splashViewModel.appCoordinator))")
         let splashViewController = ViewController(viewModel: splashViewModel)
         splashViewController.modalTransitionStyle = .crossDissolve
         splashViewController.modalPresentationStyle = .fullScreen
         navigationController.pushViewController(splashViewController, animated: false)
-        print("present splash")
     }
     
     func presentLoginViewController() {
         let apiClient = APIClient()
+        
         let loginViewModel = LoginViewModel(apiClient: apiClient)
         loginViewModel.appCoordinator = self
+        
         let loginViewController = LoginViewController(viewModel: loginViewModel)
         
-        let navigationController = UINavigationController(rootViewController: loginViewController)
-        navigationController.navigationBar.prefersLargeTitles = false
+        let loginNavController = UINavigationController(rootViewController: loginViewController)
+        loginNavController.navigationBar.prefersLargeTitles = false
         
         loginViewController.modalTransitionStyle = .crossDissolve
         loginViewController.modalPresentationStyle = .fullScreen
-        self.navigationController.present(navigationController, animated: true)
-        
-        print("present login")
+        self.navigationController.present(loginNavController, animated: true)
     }
-    
+
     func presentHomeViewController() {
-        let homeViewController = HomeViewController()
+        let apiClient = APIClient()
+        
+        let homeViewModel = HomeViewModel(apiClient: apiClient)
+        homeViewModel.appCoordinator = self
+        
+        let homeViewController = HomeViewController(viewModel: homeViewModel)
+        
+        let homeNavController = UINavigationController(rootViewController: homeViewController)
+        homeNavController.navigationBar.prefersLargeTitles = false
+        
         homeViewController.modalTransitionStyle = .crossDissolve
         homeViewController.modalPresentationStyle = .fullScreen
-        navigationController.present(homeViewController, animated: true)
-        print("present home")
+        self.navigationController.dismiss(animated: true) {
+            self.navigationController.present(homeNavController, animated: true)
+        }
     }
 }

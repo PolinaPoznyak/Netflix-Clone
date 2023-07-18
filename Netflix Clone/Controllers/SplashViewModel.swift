@@ -10,23 +10,23 @@ import Foundation
 
 class SplashViewModel {
     
-    weak var appCoordinator: AppCoordinator? {
-        didSet {
-            print("splash L")
-        }
-    }
+    //MARK: - Properties
     
+    weak var appCoordinator: AppCoordinator?
     weak var view: ViewController?
     
+    //MARK: - Init
+    
     init() {
-        print("init splash")
     }
     
+    //MARK: - Functions
+    
     func goToLoginPage() {
-            if let coordinator = appCoordinator {
-                coordinator.presentLoginViewController()
-            } else {
-                print("!!!appCoordinator svm: \(String(describing: appCoordinator))")
-            }
+        if let coordinator = appCoordinator {
+            coordinator.presentLoginViewController()
+        } else {
+            print("SplashViewModel appCoordinator: \(String(describing: appCoordinator))")
         }
+    }
 }
