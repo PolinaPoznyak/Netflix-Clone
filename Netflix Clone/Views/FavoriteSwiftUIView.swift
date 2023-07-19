@@ -28,15 +28,17 @@ struct FavoriteSwiftUIView: View {
             Divider()
                 .background(Color.gray)
             
-            Image("netflix-logo")
+            Image("never-have-i-ever")
                 .resizable()
-                .aspectRatio(contentMode: .fit)
+                .aspectRatio(contentMode: .fill)
                 .frame(width: 100, height: 100)
-            
+                .clipShape(Circle())
+                .padding()
+
             Text("Rish Tran")
                 .font(.title)
                 .fontWeight(.bold)
-                .padding(.top, 10)
+                .padding(.top, 7)
                 .foregroundColor(.white)
             
             Text("rish.tran@gmail.com")
@@ -63,7 +65,7 @@ struct FavoriteSwiftUIView: View {
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
-                    Text("MIVIES WATCHED")
+                    Text("MOVIES WATCHED")
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
@@ -88,9 +90,3 @@ struct FavoriteSwiftUIView: View {
         .edgesIgnoringSafeArea(.all) 
     }
 }
-//
-//struct FavoriteSwiftUIView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        FavoriteSwiftUIView()
-//    }
-//}

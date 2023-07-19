@@ -37,8 +37,15 @@ class FavoriteViewController: UIViewController {
         addChild(contentView)
         view.addSubview(contentView.view)
         
-        contentView.view.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        if let windowScene = UIApplication.shared.windows.first?.windowScene {
+            let statusBarHeight = windowScene.statusBarManager?.statusBarFrame.height ?? 0
+            let tabBarHeight = tabBarController?.tabBar.frame.height ?? 0
+            
+            contentView.view.snp.makeConstraints { make in
+                make.top.equalToSuperview().offset(statusBarHeight)
+                make.left.right.equalToSuperview()
+                make.bottom.equalToSuperview().inset(tabBarHeight)
+            }
         }
     }
 }
