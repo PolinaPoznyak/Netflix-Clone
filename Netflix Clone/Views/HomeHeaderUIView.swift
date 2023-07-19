@@ -10,6 +10,8 @@ import SnapKit
 
 class HomeHeaderUIView: UIView {
     
+    //MARK: - Properties
+    
     private let playButton: UIButton = {
         let button = UIButton()
         button.setTitle("Play", for: .normal)
@@ -26,19 +28,11 @@ class HomeHeaderUIView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.image = UIImage(named: "netflix-logo")
+        imageView.image = UIImage(named: "never-have-i-ever")
         return imageView
     }()
     
-    private func addGradient() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            UIColor.clear.cgColor,
-            UIColor.black.cgColor
-        ]
-        gradientLayer.frame = bounds
-        layer.addSublayer(gradientLayer)
-    }
+    //MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,6 +42,12 @@ class HomeHeaderUIView: UIView {
         addSubview(playButton)
         applyConstraints()
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    //MARK: - Functions
     
     private func applyConstraints() {
         playButton.snp.makeConstraints { make in
@@ -61,9 +61,14 @@ class HomeHeaderUIView: UIView {
         super.layoutSubviews()
         homeImageView.frame = bounds
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        
+    private func addGradient() {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            UIColor.clear.cgColor,
+            UIColor.black.cgColor
+        ]
+        gradientLayer.frame = bounds
+        layer.addSublayer(gradientLayer)
     }
-    
 }

@@ -17,7 +17,7 @@ class HomeViewModel {
     
     //TODO: make it private (private var apiClient: APIClient)
     var apiClient: APIClient
-    private var account: Account?
+    private var movies: [Movie] = []
     
     //MARK: - Init
     
@@ -25,14 +25,30 @@ class HomeViewModel {
         self.apiClient = apiClient
     }
     
-    func fetchTrendingMovies() {
+    func fetchPopularMovies() {
 //        apiClient.getPopularMovies() { result in
 //            switch result {
 //            case .success(let movies):
-//                return(movies)
+//                cell.configure(with: movies)
 //            case .failure(_):
 //                print("Failed to get popular movies")
 //            }
 //        }
+    }
+    
+    func fetchTrendingMovies() {
+        
+    }
+    
+    func fetchTrendingCartoon() {
+
+    }
+    
+    func fetchUpcomingMovies() {
+        
+    }
+    
+    func fetchRatedMovies() {
+        
     }
 }

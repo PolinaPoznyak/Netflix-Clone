@@ -10,6 +10,8 @@ import SDWebImage
 
 class TitleCollectionViewCell: UICollectionViewCell {
     
+    //MARK: - Properties
+    
     static let identifier = "TitleCollectionViewCell"
     
     private let posterImageView: UIImageView = {
@@ -17,6 +19,8 @@ class TitleCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
+    //MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -26,6 +30,8 @@ class TitleCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Functions
     
     override func layoutSubviews() {
         super.layoutSubviews()

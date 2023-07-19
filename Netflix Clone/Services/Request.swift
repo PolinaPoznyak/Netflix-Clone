@@ -17,6 +17,10 @@ public enum HTTPMethod: String{
 
 public enum Route: String{
     case movies = "discover/movie"
+    case trendingMovies = "trending/movie/day"
+    case trendingCartoons = "movie/now_playing"
+    case upcomingMovies = "movie/upcoming"
+    case ratedMovies = "movie/top_rated"
     case token = "authentication/token/new"
     case session = "authentication/session/new"
     case account = "account"

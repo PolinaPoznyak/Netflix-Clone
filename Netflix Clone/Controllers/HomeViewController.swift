@@ -10,7 +10,7 @@ import UIKit
 enum Section: Int {
     case PopularMovies = 0
     case TrendingMovies = 1
-    case TrendingTV = 2
+    case TrendingCartoons = 2
     case Upcoming = 3
     case TopRated = 4
 }
@@ -25,10 +25,11 @@ class HomeViewController: UIViewController {
     private let homeFeedTable: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.identifier)
+        table.backgroundColor = .black
         return table
     } ()
     
-    let sectionTitles: [String] = [ "Popular Movies", "Trending Movies", "Trending TV", "Upcoming Movies", "Top Rated"]
+    let sectionTitles: [String] = [ "Popular Movies", "Trending Movies", "Trending Cartoons", "Upcoming Movies", "Top Rated"]
     
     //MARK: - Init
     
@@ -111,13 +112,41 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
                 }
             }
         case Section.TrendingMovies.rawValue:
-            getTrendingMovies()
-        case Section.TrendingTV.rawValue:
-            getTrendingMovies()
+            homeViewModel.apiClient.getTrendingMovies() { result in
+                switch result {
+                case .success(let movies):
+                    cell.configure(with: movies)
+                case .failure(_):
+                    print("Failed to get popular movies")
+                }
+            }
+        case Section.TrendingCartoons.rawValue:
+            homeViewModel.apiClient.getTrendingСartoons() { result in
+                switch result {
+                case .success(let movies):
+                    cell.configure(with: movies)
+                case .failure(_):
+                    print("Failed to get popular movies")
+                }
+            }
         case Section.Upcoming.rawValue:
-            getTrendingMovies()
+            homeViewModel.apiClient.getUpcomingMovies() { result in
+                switch result {
+                case .success(let movies):
+                    cell.configure(with: movies)
+                case .failure(_):
+                    print("Failed to get popular movies")
+                }
+            }
         case Section.TopRated.rawValue:
-            getTrendingMovies()
+            homeViewModel.apiClient.getRatedMovies() { result in
+                switch result {
+                case .success(let movies):
+                    cell.configure(with: movies)
+                case .failure(_):
+                    print("Failed to get popular movies")
+                }
+            }
         default:
             return UITableViewCell()
         }
