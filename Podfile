@@ -8,5 +8,6 @@ target 'Netflix Clone' do
   
   pod 'lottie-ios'
   pod 'SnapKit'
+  pod 'SDWebImage'
 
 end

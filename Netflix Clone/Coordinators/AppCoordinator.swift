@@ -48,8 +48,8 @@ class AppCoordinator {
         let loginNavController = UINavigationController(rootViewController: loginViewController)
         loginNavController.navigationBar.prefersLargeTitles = false
         
-        loginViewController.modalTransitionStyle = .crossDissolve
-        loginViewController.modalPresentationStyle = .fullScreen
+        loginNavController.modalTransitionStyle = .crossDissolve
+        loginNavController.modalPresentationStyle = .fullScreen
         self.navigationController.present(loginNavController, animated: true)
     }
 
@@ -64,8 +64,8 @@ class AppCoordinator {
         let homeNavController = UINavigationController(rootViewController: homeViewController)
         homeNavController.navigationBar.prefersLargeTitles = false
         
-        homeViewController.modalTransitionStyle = .crossDissolve
-        homeViewController.modalPresentationStyle = .fullScreen
+        homeNavController.modalTransitionStyle = .crossDissolve
+        homeNavController.modalPresentationStyle = .fullScreen
         self.navigationController.dismiss(animated: true) {
             self.navigationController.present(homeNavController, animated: true)
         }
@@ -82,8 +82,8 @@ class AppCoordinator {
         let mainTabBarNavController = UINavigationController(rootViewController: mainTabBarViewController)
         mainTabBarNavController.navigationBar.prefersLargeTitles = false
         
-        mainTabBarViewController.modalTransitionStyle = .crossDissolve
-        mainTabBarViewController.modalPresentationStyle = .fullScreen
+        mainTabBarNavController.modalTransitionStyle = .crossDissolve
+        mainTabBarNavController.modalPresentationStyle = .overFullScreen
         self.navigationController.dismiss(animated: true) {
             self.navigationController.present(mainTabBarNavController, animated: true)
         }

@@ -7,6 +7,14 @@
 
 import UIKit
 
+enum Section: Int {
+    case PopularMovies = 0
+    case TrendingMovies = 1
+    case TrendingTV = 2
+    case Upcoming = 3
+    case TopRated = 4
+}
+
 class HomeViewController: UIViewController {
     
     //MARK: - Properties
@@ -19,6 +27,8 @@ class HomeViewController: UIViewController {
         table.register(CollectionTableViewCell.self, forCellReuseIdentifier: CollectionTableViewCell.identifier)
         return table
     } ()
+    
+    let sectionTitles: [String] = [ "Popular Movies", "Trending Movies", "Trending TV", "Upcoming Movies", "Top Rated"]
     
     //MARK: - Init
     
@@ -37,26 +47,49 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .black
         view.addSubview(homeFeedTable)
         
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
         
+        configureNavbar()
+        
         let headerView = HomeHeaderUIView(frame: CGRect(x: 0, y: 0, width: view.bounds.width, height: 450))
         homeFeedTable.tableHeaderView = headerView
+    }
+    
+    //MARK: - Nav Bar
+    
+    private func configureNavbar() {
+        var image = UIImage(named: "netflix-logo")
+        image = image?.withRenderingMode(.alwaysOriginal)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: image, style: .done, target: self, action: nil)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person"), style: .done, target: self, action: nil)
+        
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.tintColor = .white
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         homeFeedTable.frame = view.bounds
     }
+    
+    //MARK: - Functions
+    
+    func getTrendingMovies() {
+        homeViewModel.fetchTrendingMovies()
+    }
 }
+
+//MARK: - Extensions
 
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 20
+        return sectionTitles.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
@@ -66,6 +99,29 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CollectionTableViewCell.identifier, for: indexPath) as? CollectionTableViewCell else {
             return UITableViewCell()
         }
+
+        switch indexPath.section {
+        case Section.PopularMovies.rawValue:
+            homeViewModel.apiClient.getPopularMovies() { result in
+                switch result {
+                case .success(let movies):
+                    cell.configure(with: movies)
+                case .failure(_):
+                    print("Failed to get popular movies")
+                }
+            }
+        case Section.TrendingMovies.rawValue:
+            getTrendingMovies()
+        case Section.TrendingTV.rawValue:
+            getTrendingMovies()
+        case Section.Upcoming.rawValue:
+            getTrendingMovies()
+        case Section.TopRated.rawValue:
+            getTrendingMovies()
+        default:
+            return UITableViewCell()
+        }
+        
         return cell
     }
     
@@ -75,6 +131,18 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     private func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> CGFloat {
         return 40
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else {return}
+        header.textLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y, width: 100, height: header.bounds.height)
+        header.textLabel?.textColor = .white
+        //header.textLabel?.text = header.textLabel?.text?.lowercased()
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sectionTitles[section]
     }
 }
 

@@ -6,14 +6,19 @@
 //
 
 import UIKit
+import SnapKit
 
 class HomeHeaderUIView: UIView {
     
     private let playButton: UIButton = {
         let button = UIButton()
         button.setTitle("Play", for: .normal)
-        button.layer.borderColor = UIColor.systemBackground.cgColor
+        button.backgroundColor = .white
+        //button.setImage(UIImage(systemName: "play"), for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        button.layer.borderColor = UIColor.white.cgColor
         button.layer.borderWidth = 1
+        button.layer.cornerRadius = 3
         return button
     }()
 
@@ -29,7 +34,7 @@ class HomeHeaderUIView: UIView {
         let gradientLayer = CAGradientLayer()
         gradientLayer.colors = [
             UIColor.clear.cgColor,
-            UIColor.systemBackground.cgColor
+            UIColor.black.cgColor
         ]
         gradientLayer.frame = bounds
         layer.addSublayer(gradientLayer)
@@ -37,8 +42,19 @@ class HomeHeaderUIView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .black
         addSubview(homeImageView)
         addGradient()
+        addSubview(playButton)
+        applyConstraints()
+    }
+    
+    private func applyConstraints() {
+        playButton.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(25)
+            make.width.equalTo(120)
+        }
     }
     
     override func layoutSubviews() {

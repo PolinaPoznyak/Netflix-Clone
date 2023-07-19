@@ -30,13 +30,16 @@ class MainTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        tabBar.barStyle = .black
+        
         let apiClient = APIClient()
         let homeViewModel = HomeViewModel(apiClient: apiClient)
-        let commingSoonViewModel = CommingSoonViewModel(apiClient: apiClient)
+        let comingSoonViewModel = ComingSoonViewModel(apiClient: apiClient)
         let favoriteViewModel = FavoriteViewModel(apiClient: apiClient)
         
         let vc1 = UINavigationController(rootViewController: HomeViewController(viewModel: homeViewModel))
-        let vc2 = UINavigationController(rootViewController: CommingSoonViewController(viewModel: commingSoonViewModel))
+        let vc2 = UINavigationController(rootViewController: ComingSoonViewController(viewModel: comingSoonViewModel))
         let vc3 = UINavigationController(rootViewController: FavoriteViewController(viewModel: favoriteViewModel))
         
         vc1.tabBarItem.image = UIImage(systemName: "house")
