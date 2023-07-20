@@ -12,7 +12,15 @@ class ComingSoonViewController: UIViewController {
     //MARK: - Properties
     
     private let comingSoonViewModel: ComingSoonViewModel
+    var comingView: ComingView!
+
+    //MARK: - Lifecycle
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupViews()
+        comingSoonViewModel.fetchComingSoon()
+    }
     
     //MARK: - Init
     
@@ -26,11 +34,33 @@ class ComingSoonViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Lifecycle
+    //MARK: - Setup
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupViews() {
+        view.backgroundColor = .black
+        comingView = ComingView()
+        view.addSubview(comingView)
+        comingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        comingView.collectionView.dataSource = self
+        comingView.collectionView.register(MovieCell.self, forCellWithReuseIdentifier: "\(MovieCell.self)")
+    }
+}
 
-        view.backgroundColor = .systemBackground
+//MARK: - Extensions
+
+extension ComingSoonViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return comingSoonViewModel.movies.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "\(MovieCell.self)", for: indexPath) as? MovieCell else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configure(with: comingSoonViewModel.movies[indexPath.item].posterPath)
+        return cell
     }
 }
